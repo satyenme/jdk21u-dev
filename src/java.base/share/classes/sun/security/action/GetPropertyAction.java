@@ -195,10 +195,10 @@ public class GetPropertyAction implements PrivilegedAction<String> {
         // the original value in rawPropVal for debug messages.
         boolean isMillis = false;
         String propVal = rawPropVal;
-        if (rawPropVal.toLowerCase().endsWith("ms")) {
+        if (rawPropVal.toLowerCase(Locale.ROOT).endsWith("ms")) {
             propVal = rawPropVal.substring(0, rawPropVal.length() - 2);
             isMillis = true;
-        } else if (rawPropVal.toLowerCase().endsWith("s")) {
+        } else if (rawPropVal.toLowerCase(Locale.ROOT).endsWith("s")) {
             propVal = rawPropVal.substring(0, rawPropVal.length() - 1);
         }
 
