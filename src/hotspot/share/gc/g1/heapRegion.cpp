@@ -146,9 +146,10 @@ double HeapRegion::calc_gc_efficiency() {
   double region_elapsed_time_ms = policy->predict_region_total_time_ms(this, false /* for_young_only_phase */);
   return (double)reclaimable_bytes() / region_elapsed_time_ms;
 }
-
 void HeapRegion::set_free() {
-  report_region_type_change(G1HeapRegionTraceType::Free);
+  if (!is_free()) {
+    report_region_type_change(G1HeapRegionTraceType::Free);
+  }
   _type.set_free();
 }
 
@@ -168,8 +169,9 @@ void HeapRegion::set_survivor() {
 }
 
 void HeapRegion::move_to_old() {
+  G1HeapRegionTraceType::Type prev_trace_type = _type.get_trace_type();
   if (_type.relabel_as_old()) {
-    report_region_type_change(G1HeapRegionTraceType::Old);
+    report_region_type_change(prev_trace_type);
   }
 }
 
